@@ -1,9 +1,8 @@
 class PDA:
-    def __init__(self, symbols, stack_symbols, start_stack, final_state, start_state, transitions):
+    def __init__(self, symbols, stack_symbols, start_stack, start_state, transitions):
         self.symbols = symbols
         self.stack_symbols = stack_symbols
         self.start_stack = start_stack
-        self.final_state = final_state
         self.start_state = start_state
         self.transitions = transitions
         self.stack = [start_stack]
@@ -52,11 +51,10 @@ def parse_pda_description(file_path):
     symbols = lines[0].strip().split()
     stack_symbols = lines[1].strip().split()
     start_stack = lines[2].strip()
-    final_state = lines[3].strip()
-    start_state = lines[4].strip()
+    start_state = lines[3].strip()
 
     transitions = {}
-    for line in lines[5:]:
+    for line in lines[4:]:
         transition_data = line.strip().split()
         key = (transition_data[0], transition_data[1], transition_data[2])
         push = transition_data[4].strip().split(',')
@@ -67,7 +65,6 @@ def parse_pda_description(file_path):
         "symbols": symbols,
         "stack_symbols": stack_symbols,
         "start_stack": start_stack,
-        "final_state": final_state,
         "start_state": start_state,
         "transitions" : transitions
     }
@@ -78,8 +75,8 @@ def read_html_file(file_path):
     return html_content
 
 def main():
-    pda_file_path = 'pdatest.txt'
-    html_file_path = 'index.html'
+    pda_file_path = 'pda.txt'
+    html_file_path = 'gaa.html'
 
     pda_description = parse_pda_description(pda_file_path)
     html_content = read_html_file(html_file_path)
