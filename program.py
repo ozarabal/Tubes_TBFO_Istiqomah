@@ -1,56 +1,80 @@
-# Read automaton information from the txt file
-def read_automaton_info(file_name):
-    with open(file_name, 'r') as file:
+class PDA:
+    def __init__(self, symbols, stack_symbols, start_stack, final_state, start_state, transitions):
+        self.symbols = symbols
+        self.stack_symbols = stack_symbols
+        self.start_stack = start_stack
+        self.final_state = final_state
+        self.start_state = start_state
+        self.transitions = transitions
+        self.stack = [start_stack]
+        self.current_state = start_state
+
+    def simulate(self, input_string):
+        for symbol in input_string:
+            if symbol not in self.symbols:
+                return False  # Reject if symbol is not in the alphabet
+            
+            top_of_stack = self.stack[-1]
+            
+            if (self.current_state, symbol, top_of_stack) in self.transitions:
+                self.stack.pop()
+                
+                state_action = self.transitions[(self.current_state, symbol, top_of_stack)]
+    
+                for i in range (len(state_action[1])-1,-1,-1):
+                    self.stack.append(state_action[1][i])
+                # Transition to the next state
+                print(self.stack)
+                self.current_state = state_action[0]
+            else:
+                return False  # Reject if no valid transition
+
+        return self.current_state == self.final_state and not self.stack
+
+def parse_pda_description(file_path):
+    with open(file_path, 'r') as file:
         lines = file.readlines()
-    input_symbols = lines[0].split()
-    stack_symbols = lines[1].split()
-    starting_stack = lines[2].strip()
-    accepting_state = lines[3].strip()
-    starting_state = lines[4].strip()
-    transitions = [tuple(line.strip().split()) for line in lines[5:]]
-    return input_symbols, stack_symbols, starting_stack, accepting_state,starting_state, transitions
-file = 'test.txt'
-print(read_automaton_info(file))
-# Validate HTML     using pushdown automaton rules
-def validate_html(html_file, automaton_info_file):
 
-    # Read automaton info
-    input_symbols, stack_symbols, starting_stack, accepting_state,starting_state, transitions = read_automaton_info(automaton_info_file)
+    symbols = lines[0].strip().split()
+    stack_symbols = lines[1].strip().split()
+    start_stack = lines[2].strip()
+    final_state = lines[3].strip()
+    start_state = lines[4].strip()
 
-    # Initialize stack with starting symbol
-    stack = [stack_symbols[0]]
-    current_state = starting_state
+    transitions = {}
+    for line in lines[5:]:
+        transition_data = line.strip().split()
+        key = (transition_data[0], transition_data[1], transition_data[2])
+        push = transition_data[4].strip().split(',')
+        value = (transition_data[3],push)
+        transitions[key] = value
 
-    # Read HTML file
-    with open(html_file, 'r') as file:
+    return {
+        "symbols": symbols,
+        "stack_symbols": stack_symbols,
+        "start_stack": start_stack,
+        "final_state": final_state,
+        "start_state": start_state,
+        "transitions" : transitions
+    }
+
+def read_html_file(file_path):
+    with open(file_path, 'r') as file:
         html_content = file.read()
+    return html_content
 
-    # Split HTML content by tags
-    tags = [tag.strip() for tag in html_content.replace('>', ' > ').split() if tag.strip()]
+def main():
+    pda_file_path = 'pda.txt'
+    html_file_path = 'index.html'
 
-    # Check if each tag in the HTML content follows automaton rules
-    for tag in tags:
-        found_transition = False
-        for transition in transitions:
-            if current_state == transition[0] and tag in transition[1] and stack[-1] == transition[2]:
-                stack.pop()
-                stack.extend(transition[4:])
-                current_state = transition[3]
-                found_transition = True
-                break
+    pda_description = parse_pda_description(pda_file_path)
+    html_content = read_html_file(html_file_path)
 
-        if not found_transition:
-            return False  # Tag doesn't follow automaton rules
+    pda = PDA(**pda_description)
+    if pda.simulate(html_content):
+        print("HTML file is correct according to the PDA.")
+    else:
+        print("HTML file is incorrect according to the PDA.")
 
-    # Check if the stack is empty at the end and the final state is accepting
-    return len(stack) == 0 and current_state == accepting_state
-
-# Test the HTML file against the pushdown automaton rules
-html_file_to_check = 'index.html'  # Replace with your HTML file name
-automaton_info_file = 'test.txt'
-
-result = validate_html(html_file_to_check, automaton_info_file)
-if result:
-    print("HTML file follows pushdown automaton rules.")
-else:
-    print("HTML file does not follow pushdown automaton rules.")
+if __name__ == "__main__":
+    main()
