@@ -10,26 +10,40 @@ class PDA:
         self.current_state = start_state
 
     def simulate(self, input_string):
-        for symbol in input_string:
-            if symbol not in self.symbols:
+        tags = [tag.strip() for tag in input_string.replace('>', ' > ').replace('<',' < ').replace('/',' / ').replace('=',' = ').replace('"',' " ').split() if tag.strip()]
+        # for tag in tags:
+        #     baru = [ tag.] 
+        #       tags = [tag.strip() for tag in input_string.replace('>', ' > ').split() if tag.strip()]
+        print(tags)
+        temp = tags[0]
+        for tag in tags:
+            print(self.current_state)
+            if temp == '>' and tag != '<' and tag not in self.symbols:
+                tag = 'any-<'
+            elif temp == '"' and tag not in self.symbols and tag != '<':
+                tag = 'any-"'
+            elif tag not in self.symbols:
                 return False  # Reject if symbol is not in the alphabet
             
             top_of_stack = self.stack[-1]
             
-            if (self.current_state, symbol, top_of_stack) in self.transitions:
+            if (self.current_state, tag, top_of_stack) in self.transitions:
                 self.stack.pop()
                 
-                state_action = self.transitions[(self.current_state, symbol, top_of_stack)]
+                state_action = self.transitions[(self.current_state, tag, top_of_stack)]
     
                 for i in range (len(state_action[1])-1,-1,-1):
-                    self.stack.append(state_action[1][i])
+                    if state_action[1][i] != 'e':
+                        self.stack.append(state_action[1][i])
                 # Transition to the next state
-                print(self.stack)
+                # print(self.stack)
                 self.current_state = state_action[0]
             else:
+                print(self.current_state)
                 return False  # Reject if no valid transition
-
-        return self.current_state == self.final_state and not self.stack
+            temp = tag
+            print(self.stack)
+        return len(self.stack) == 1 
 
 def parse_pda_description(file_path):
     with open(file_path, 'r') as file:
@@ -64,12 +78,11 @@ def read_html_file(file_path):
     return html_content
 
 def main():
-    pda_file_path = 'pda.txt'
+    pda_file_path = 'pdatest.txt'
     html_file_path = 'index.html'
 
     pda_description = parse_pda_description(pda_file_path)
     html_content = read_html_file(html_file_path)
-
     pda = PDA(**pda_description)
     if pda.simulate(html_content):
         print("HTML file is correct according to the PDA.")
