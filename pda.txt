@@ -1,8 +1,8 @@
 < > / = " html head body title link rel href script src h1 h2 h3 h4 h5 h6 p br em b abbr strong small hr div a img alt button type form action method input table tr td th id class style ! -
-q26 < > div / Fs
-q26
+Z < > div / Fs
+Z
 q1
-q1 < q26 q1 <,q26
+q1 < Z q1 <,Z
 q1 html < q1 html,<
 q1 > html q2 html
 q1 id html q16 q1,html
@@ -67,7 +67,7 @@ q6 link < q22 link,<
 q6 id > q9 q1,>
 q6 class > q9 q1,>
 q6 style > q9 q1,>
-q6 img < q26 img,<
+q6 img < Z img,<
 q6 a < q25 >,a,<
 q6 form < r7 >,form,<
 q6 input < r12 input,<
@@ -110,7 +110,7 @@ Fs abbr > q6 >,abbr,<,Fs,>
 Fs strong > q6 >,strong,<,Fs,>
 Fs small > q6 >,small,<,Fs,>
 Fs a > q25 >,a,<,Fs,>
-Fs img > q26 img,<,Fs,>
+Fs img > Z img,<,Fs,>
 Fs link > q22 link,<,Fs,>
 Fs button > r2 >,button,<,Fs,>
 Fs form > r7 >,form,<,Fs,>
@@ -193,22 +193,22 @@ q25 href > q9 q1,>
 q25 id > q9 q1,>
 q25 class > q9 q1,>
 q25 style > q9 q1,>
-q26 src img q26 src,img
-q26 = src r1 e
-q26 = alt r1 e
-q26 = id r1 e
-q26 = class r1 e
-q26 = style r1 e
-q26 id img r33 q1,img
-q26 class img r33 q1,img
-q26 style img r33 q1,img
+Z src img Z src,img
+Z = src r1 e
+Z = alt r1 e
+Z = id r1 e
+Z = class r1 e
+Z = style r1 e
+Z id img r33 q1,img
+Z class img r33 q1,img
+Z style img r33 q1,img
 r1 " img r1 q1
 r1 any-" q1 r1 q1
 r1 " q1 r1 e
-r1 alt < q26 alt,img,<
-r1 id < q26 id,img,<
-r1 class < q26 class,img,<
-r1 style < q26 style,img,<
+r1 alt < Z alt,img,<
+r1 id < Z id,img,<
+r1 class < Z class,img,<
+r1 style < Z style,img,<
 r1 > < q6 e
 r2 id > r2 q1,>
 r2 class > r2 q1,>
@@ -345,4 +345,4 @@ r31 " q1 q22 e
 r33 = q1 r34 e
 r34 " img r34 q1,img
 r34 any-" q1 r34 q1
-r34 " q1 q26 e
+r34 " q1 Z e
