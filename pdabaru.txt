@@ -17,7 +17,6 @@ q2 style head q18 q1,head
 q3 < head q3 <,head
 q3 title < q3 >,title,<
 q3 > > q3 Fs,>
-q3 any-< Fs q3 Fs
 q3 < Fs q3 e
 q3 / > q3 e
 q3 title title q3 e
@@ -57,7 +56,6 @@ q6 abbr < q6 >,abbr,<
 q6 strong < q6 >,strong,<
 q6 small < q6 >,small,<
 q6 > > q6 Fs,>
-q6 any-< Fs q6 Fs
 q6 script < r25 >,script,<
 q6 br < q14 <
 q6 hr < q14 <
@@ -125,7 +123,6 @@ q8 html html q8 e
 q8 > < q8 e
 q9 = q1 q9 =,q1
 q9 " = q10 e
-q10 any-" q1 q10 q1
 q10 " q1 q6 e
 q11 head head q11 e
 q11 > < q5 q2
@@ -139,7 +136,6 @@ q12 id link r28 q1,link
 q12 class link r28 q1,link
 q12 style link r28 q1,link
 q13 " link q13 q1
-q13 any-" q1 q13 q1
 q13 " q1 q13 e
 q13 href < q12 href,link,<
 q13 id < q12 id,link,<
@@ -156,19 +152,15 @@ q14 = q1 q14 =,q1
 q14 " = q15 e
 q14 > < q6 e
 q14 > > q6 Fs,>
-q15 any-" q1 q15 q1
 q15 " q1 q14 e
 q16 = q1 q16 =,q1
 q16 " = q17 e
-q17 any-" q1 q17 q1
 q17 " q1 q1 e
 q18 = q1 q18 =,q1
 q18 " = q19 e
-q19 any-" q1 q19 q1
 q19 " q1 q2 e
 q20 = q1 q20 =,q1
 q20 " = q21 e
-q21 any-" q1 q21 q1
 q21 " q1 q3 e
 q22 rel link q22 rel,link
 q22 = rel q23 e
@@ -180,7 +172,6 @@ q22 id link r30 q1,link
 q22 class link r30 q1,link
 q22 style link r30 q1,link
 q23 " link q23 q1
-q23 any-" q1 q23 q1
 q23 " q1 q23 e
 q23 href < q22 href,link,<
 q23 id < q22 id,link,<
@@ -203,7 +194,6 @@ Z id img r33 q1,img
 Z class img r33 q1,img
 Z style img r33 q1,img
 r1 " img r1 q1
-r1 any-" q1 r1 q1
 r1 " q1 r1 e
 r1 alt < Z alt,img,<
 r1 id < Z id,img,<
@@ -217,7 +207,6 @@ r2 = q1 r2 =,q1
 r2 " = r3 e
 r2 type > r4 type,>
 r2 > > q6 Fs,>
-r3 any-" q1 r3 q1
 r3 " q1 r2 e
 r4 = type r4 =,type
 r4 " = r5 e
@@ -238,7 +227,6 @@ r8 " = r9 e
 r9 GET method r10 method
 r9 POST method r10 method
 r10 " method r7 e
-r11 any-" q1 r11 q1
 r11 " q1 r7 e
 r12 id input r12 id,input
 r12 class input r12 class,input
@@ -248,7 +236,6 @@ r12 = id r13 e
 r12 = class r13 e
 r12 = style r13 e
 r13 " input r13 q1
-r13 any-" q1 r13 q1
 r13 " q1 r13 e
 r13 id < r12 id,input,<
 r13 class < r12 class,input,<
@@ -277,7 +264,6 @@ r17 style > r17 q1,>
 r17 = q1 r17 =,q1
 r17 " = r18 e
 r17 > > r19 >
-r18 any-" q1 r18 q1
 r18 " q1 r17 e
 r19 < > r19 <,>
 r19 tr < r19 tr,<
@@ -287,7 +273,6 @@ r19 style tr r19 q1,tr
 r19 = q1 r19 =,q1
 r19 " = r20 e
 r19 > tr r21 >,tr
-r20 any-" q1 r20 q1
 r20 " q1 r19 e
 r21 < > r21 <,>
 r21 th < r21 th,<
@@ -305,9 +290,7 @@ r21 = q1 r21 =,q1
 r21 " = r22 e
 r21 > th r23 Fs,>,th
 r21 > td r23 Fs,>,td
-r22 any-" q1 r22 q1
 r22 " q1 r21 e
-r23 any-< Fs r23 Fs
 r23 < Fs r23 e
 r23 / > r23 e
 r23 th th r23 e
@@ -332,17 +315,13 @@ r25 style > q9 q1,>
 r25 > > q6 Fs,>
 r26 = q1 r26 =,q1
 r26 " = r27 e
-r27 any-" q1 r27 q1
 r27 " q1 q5 e
 r28 = q1 r29 e
 r29 " link r29 q1,link
-r29 any-" q1 r29 q1
 r29 " q1 q12 e
 r30 = q1 r31 e
 r31 " link r31 q1,link
-r31 any-" q1 r31 q1
 r31 " q1 q22 e
 r33 = q1 r34 e
 r34 " img r34 q1,img
-r34 any-" q1 r34 q1
 r34 " q1 Z e
