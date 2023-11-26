@@ -1,3 +1,4 @@
+import argparse
 class PDA:
     def __init__(self, symbols, stack_symbols, start_stack, start_state, transitions):
         self.symbols = symbols
@@ -9,19 +10,51 @@ class PDA:
         self.current_state = start_state
 
     def simulate(self, input_string):
-        tags = [tag.strip() for tag in input_string.replace('>', ' > ').replace('<',' < ').replace('/',' / ').replace('=',' = ').replace('"',' " ').split() if tag.strip()]
-        print(tags)
-        temp = tags[0]
+        tags = [tag.strip() for tag in input_string.replace('!--',' !-- ').replace('>', ' > ').replace('<',' < ').replace('/',' / ').replace('=',' = ').replace('"',' " ').split() if tag.strip()]
+        merge_tags = []
+        current_sting = []
+        
         for tag in tags:
-            print(self.current_state)
-            if temp == '>' and tag != '<' and tag not in self.symbols:
-                continue #baca any-<
-            elif temp == '"' and tag not in self.symbols and tag != '<':
-                continue #baca any-"
+            if tag == '"' and not '"' in current_sting:
+                current_sting += tag 
+                merge_tags.append(tag)
+            elif '"' in current_sting and tag != '"':
+                current_sting += tag
+            elif tag == '"' and '"' in current_sting:
+                current_sting.pop(0)
+                current_sting = "".join(current_sting)
+                merge_tags.append(current_sting)
+                current_sting = []
+                merge_tags.append(tag)
+            else:
+                merge_tags.append(tag)
+        
+        print(merge_tags)
+        
+        tagprev = ""
+        for tag in merge_tags:
+            cek = False
+            print("ini prev",tagprev)
+            print("ini sekarang",tag)
+            if tagprev == '>' and tag != '<':
+                temp = tag
+                tag = 'any-<'
+                cek = True 
+            elif tagprev == '!--' and tag != '>' :
+                temp = tag
+                tag = 'any->'
+                cek = True
+            elif tagprev == '"' and tag != '"' and tag not in self.symbols:
+                temp = tag
+                tag = 'any-"'
+                # cek = True
+            # elif tag == '"' and tagprev == '"':
+            #     tagprev = tags[tags.index(tag)-1]
             elif tag not in self.symbols:
-                return False , self.stack[-1]
+                return False , tag
             top_of_stack = self.stack[-1]
             
+            print("current state",self.current_state)
             if (self.current_state, tag, top_of_stack) in self.transitions:
                 self.stack.pop()
                 state_action = self.transitions[(self.current_state, tag, top_of_stack)]
@@ -32,10 +65,14 @@ class PDA:
                 self.current_state = state_action[0]
             else:
                 print(self.current_state)
-                return False , self.stack[-1]
-            temp = tag
+                print(tag)
+                if(tag == 'any-<' or tag == 'any->' or tag == 'any-"'):
+                    tag = temp
+                return False , tag
+            if not cek:    
+                tagprev = tag
             print(self.stack)
-        return len(self.stack) == 1 , self.stack[-1]
+        return len(self.stack) == 1 , tag
 
 def parse_pda_description(file_path):
     with open(file_path, 'r') as file:
@@ -68,11 +105,14 @@ def read_html_file(file_path):
     return html_content
 
 def main():
-    pda_file_path = 'pda.txt'
-    html_file_path = 'index.html'
+    parser = argparse.ArgumentParser(description='Process some files.')
+    parser.add_argument('pda_file', type=str, help='The PDA file')
+    parser.add_argument('html_file', type=str, help='The HTML file')
 
-    pda_description = parse_pda_description(pda_file_path)
-    html_content = read_html_file(html_file_path)
+    args = parser.parse_args()
+
+    pda_description = parse_pda_description(args.pda_file)
+    html_content = read_html_file(args.html_file)
     pda = PDA(**pda_description)
     cek , tag = pda.simulate(html_content)
     
