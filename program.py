@@ -9,7 +9,7 @@ class PDA:
         self.stack = [start_stack]
         self.current_state = start_state
 
-    def simulate(self, input_string):
+    def checkingSnytax(self, input_string):
         tags = [tag.strip() for tag in input_string.replace('!--',' !-- ').replace('>', ' > ').replace('<',' < ').replace('/',' / ').replace('=',' = ').replace('"',' " ').split() if tag.strip()]
         merge_tags = []
         current_sting = []
@@ -29,13 +29,9 @@ class PDA:
             else:
                 merge_tags.append(tag)
         
-        print(merge_tags)
-        
         tagprev = ""
         for tag in merge_tags:
             cek = False
-            print("ini prev",tagprev)
-            print("ini sekarang",tag)
             if tagprev == '>' and tag != '<':
                 temp = tag
                 tag = 'any-<'
@@ -47,14 +43,10 @@ class PDA:
             elif tagprev == '"' and tag != '"' and tag not in self.symbols:
                 temp = tag
                 tag = 'any-"'
-                # cek = True
-            # elif tag == '"' and tagprev == '"':
-            #     tagprev = tags[tags.index(tag)-1]
             elif tag not in self.symbols:
                 return False , tag
             top_of_stack = self.stack[-1]
             
-            print("current state",self.current_state)
             if (self.current_state, tag, top_of_stack) in self.transitions:
                 self.stack.pop()
                 state_action = self.transitions[(self.current_state, tag, top_of_stack)]
@@ -64,17 +56,14 @@ class PDA:
                         self.stack.append(state_action[1][i])
                 self.current_state = state_action[0]
             else:
-                print(self.current_state)
-                print(tag)
-                if(tag == 'any-<' or tag == 'any->' or tag == 'any-"'):
+                if tag == 'any-"' or tag == 'any->' or tag == 'any-<':
                     tag = temp
                 return False , tag
             if not cek:    
                 tagprev = tag
-            print(self.stack)
-        return len(self.stack) == 1 , tag
+        return len(self.stack) == 1 , ""
 
-def parse_pda_description(file_path):
+def bacaPDA(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
@@ -99,7 +88,7 @@ def parse_pda_description(file_path):
         "transitions" : transitions
     }
 
-def read_html_file(file_path):
+def bacaHTML(file_path):
     with open(file_path, 'r') as file:
         html_content = file.read()
     return html_content
@@ -111,16 +100,15 @@ def main():
 
     args = parser.parse_args()
 
-    pda_description = parse_pda_description(args.pda_file)
-    html_content = read_html_file(args.html_file)
+    pda_description = bacaPDA(args.pda_file)
+    html_content = bacaHTML(args.html_file)
     pda = PDA(**pda_description)
-    cek , tag = pda.simulate(html_content)
-    
+    cek , tag = pda.checkingSnytax(html_content)
     if cek:
-        print("HTML file is correct according to the PDA.")
+        print("Accepted")
     else:
-        print("Syntax error terdapat pada :",tag)
-        print("HTML file is incorrect according to the PDA.")
+        print("Syntax error")
+        print(f"Terjadi kesalahan ekspresi: {tag}")
 
 if __name__ == "__main__":
     main()

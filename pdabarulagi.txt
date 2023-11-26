@@ -86,7 +86,7 @@ q6 id > q9 q1,>
 q6 class > q9 q1,>
 q6 style > q9 q1,>
 q6 img < Z img,<
-q6 a < q25 >,a,<
+q6 a < q25 a,<
 q6 form < r7 >,form,<
 q6 input < r12 input,<
 q6 button < r2 >,button,<
@@ -135,6 +135,8 @@ q7 form > r7 >,form,<,TEXT,>
 q7 input > r12 input,<,TEXT,>
 q7 table > r17 >,table,<,TEXT,>
 q7 script > r25 >,script,<,TEXT,>
+q7 any-< TEXT q7 TEXT
+q7 < TEXT q7 e
 q8 !-- q2 q8 com,<,q2
 q8 > com q8 e
 q8 < Z q8 Z
@@ -212,7 +214,17 @@ q23 style < q22 style,link,<
 q23 > < q6 e
 q24 src > q20 q1,>
 q24 > > q3 TEXT,>
-q25 href > q9 q1,>
+q25 > a q25 >,a
+q25 any-< > q25 >
+q25 < > q25 e
+q25 / a q25 a
+q25 a a q25 e
+q25 > < q6 e
+q25 href a q25 q1,>,a
+q25 = q1 q9 =,q1
+q25 " = q25 e
+q25 any-" q1 q10 q1
+q25 " q1 q6 e
 q25 id > q9 q1,>
 q25 class > q9 q1,>
 q25 style > q9 q1,>
